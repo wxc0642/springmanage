@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<!--加入角色权限控制-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>目录索引总模板</title>
+    <link rel="stylesheet" th:href="@{/css/StudentLeft.css}">
+
+
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .bx{
+            height: 60px;
+            width: 100%;
+            background: #177ec1;
+        }
+        .bx .container{
+            margin: 0 60px;
+            overflow: hidden;
+        }
+        .bx .container .left{
+            width: 340px;
+            height: 43px;
+            padding-top: 19px;
+            color: #FFFFFF;
+            font-size: 24px;
+            float: left;
+        }
+        .bx .container .right{
+            overflow: hidden;
+            width: 350px;
+            padding-top: 19px;
+            float: right;
+        }
+        .bx .container .right span{
+            font-size: 16px;
+            color: #fff;
+        }
+        .bx .container .right .l{
+            float: left;
+        }
+        .bx .container .right .r{
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<!--<div th:include="StudentTop" style="overflow-scrolling: unset" rows="60,*" th:name="main"></div>-->
+
+<!--&lt;!&ndash;student权限&ndash;&gt;-->
+<!--<div th:include="level1/StudentLeft" style="overflow-scrolling: auto"  cols="210" th:name="main"></div>-->
+
+<!--&lt;!&ndash;teacher权限&ndash;&gt;-->
+<!--<div th:include="level2/TeacherLeftLeft" style="overflow-scrolling: auto"  cols="210" th:name="main"></div>-->
+
+<!--&lt;!&ndash;superManager权限&ndash;&gt;-->
+<!--<div th:include="level3/SuperManagerLeft" style="overflow-scrolling: auto"  cols="210" th:name="main"></div>-->
+
+<!--顶部栏-->
+<div class="bx">
+    <div class="container">
+        <h2 class="left">计算机仿真实验室出勤管理系统</h2>
+        <div class="right">
+
+            <div sec:authorize="!(hasRole('student') or hasRole('teacher') or hasRole('administrator'))">
+                <a th:href="@{/toLogin}" style="text-decoration: none">
+                    <span>登录</span>
+                </a>
+            </div>
+            <!--注销功能-->
+
+            <div sec:authorize="hasRole('student') or hasRole('teacher') or hasRole('administrator')">
+                <div class="l">
+                    <span>用户名：</span> <span sec:authentication="name"></span>
+                    <span>角色：</span> <span sec:authentication="principal.authorities"></span>
+                </div>
+                <div class="r">
+                    <a th:href="@{/logout}" style="text-decoration: none"><span>退出登录</span></a>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<!--侧边栏-->
+
+<!--公共栏-->
+<div class="nav">
+<div class="nav-list" sec:authorize="hasRole('student') or hasRole('teacher') or hasRole('administrator')">
+    <div class="nav-tit">
+        <a th:href="@{/info}" target="main">
+            <img th:src="@{/images/personal-msg.png}" style="height: 30px" alt="">
+            <span>个人信息</span>
+        </a>
+    </div>
+</div>
+
+
+<!--学生-->
+
+    <div class="nav-list" sec:authorize="hasRole('student')">
+
+        <div class="nav-tit">
+            <a th:href="@{/student/individual_sta_fig}" target="_self">
+                <img th:src="@{/images/job-change.png}" alt="">
+                <span>情况统计</span>
+            </a>
+        </div>
+
+        <div class="personal-list">
+            <ul>
+                <li><a th:href="@{/student/takeoffList}" target="_self">请假列表</a></li>
+                <li><a th:href="@{/student/takeoff}" target="_self">请假申请</a></li>
+            </ul>
+        </div>
+
+        <!--				<div class="nav-tit">-->
+        <!--					<a href="StudentRevise.html" target="main">-->
+        <!--					<img src="images/modify-password.png" alt="">-->
+        <!--					<span>修改密码</span>-->
+        <!--					</a>-->
+        <!--				</div>-->
+    </div>
+
+
+<!--教师-->
+
+    <div class="nav-list" sec:authorize="hasRole('teacher')">
+        <div class="nav-tit">
+            <a th:href="@{/teacher/StudentInfo}" target="main">
+                <img th:src="@{/images/personal-msg.png}" style="height: 30px" alt="">
+                <span>情况统计</span>
+            </a>
+        </div>
+
+
+        <div class="nav-tit" id="personal2">
+            <img th:src="@{/images/PubMed-msg.png}" alt="">
+            <span>学生信息</span>
+        </div>
+        <div class="personal-list" id="personal2_child">
+            <ul>
+                <li><a th:href="@{/teacher/takeoffList}" target="main">学生请假列表</a></li>
+                <li><a th:href="@{/teacher/takeoff}" target="main">请假审批</a></li>
+            </ul>
+        </div>
+        <!--				<div class="nav-tit">-->
+        <!--					<a href="StudentRevise.html" target="main">-->
+        <!--					<img src="images/modify-password.png" alt="">-->
+        <!--					<span>修改密码</span>-->
+        <!--					</a>-->
+        <!--				</div>-->
+
+    </div>
+
+
+<!--管理员-->
+
+    <div class="nav-list" sec:authorize="hasRole('administrator')">
+        <div class="nav-tit">
+            <a th:href="@{/administrator/allStatisticFig}" target="main">
+                <img th:src="@{/images/personal-msg.png}" style="height: 30px" alt="">
+                <span>打卡统计图</span>
+            </a>
+        </div>
+
+        <div class="nav-tit">
+            <a th:href="@{/administrator/TeacherInfo}" target="main">
+                <img th:src="@{/images/job-msg.png}" alt="">
+                <span>教师信息</span>
+            </a>
+        </div>
+        <div class="nav-tit" id="personal3">
+            <a th:href="@{/administrator/StudentInfoAll}" target="main">
+                <img th:src="@{/images/PubMed-msg.png}" alt="">
+                <span>学生信息</span>
+            </a>
+        </div>
+
+
+<!--        <div class="personal-list" id="personal3_child">-->
+<!--            <ul>-->
+<!--                <li><a href="FamilyInformation.html" target="main">学生基本信息</a></li>-->
+<!--                <li><a href="TeacherEmInformation.html" target="main">就业学生信息</a></li>-->
+<!--                <li><a href="Teacherinvestigation.html" target="main">就业信息调查</a></li>-->
+<!--                <li><a href="TeacherPubMed.html" target="main">考研学生信息</a></li>-->
+<!--            </ul>-->
+<!--        </div>-->
+
+
+    </div>
+</div>
+
+</body>
+</html>

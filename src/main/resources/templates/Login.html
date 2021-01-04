@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}"/>
+
+	</head>
+	<body>
+		<div class="login">
+			<div class="content clearfix">
+				<div class="content-left">
+					<div class="logo">
+						<img th:src="@{/images/login-bg.jpg}" alt=""/>
+						<p>计算机仿真实验室出勤管理系统</p>
+					</div>
+				</div>
+				<div class="shu"></div>
+				<div class="content-right">
+					<div class="login-form">
+						<h2>用户登录/LOGIN</h2>
+						<form th:action="@{/toLogin}" method="post">
+						<div class="identifire">
+							<span>身　份：</span>
+							<select>
+								<option value="学生" selected="selected">学生</option>
+								<option value="教师">教师</option>
+								<option value="系统管理员">系统管理员</option>
+							</select>
+						</div>
+						<div class="account clearfix">
+							<span>账　号：</span>
+							<input type="text" th:name="username" placeholder="UserName" />
+						</div>
+						<div class="password clearfix">
+							<span>密　码：</span>
+							<input type="password" th:name="password" placeholder="Password"/>
+						</div>
+						<div id="remember">
+							<input id="remember_input" type="checkbox" th:name="remember">
+							<span id="remember_span">记住我</span>
+						</div>
+
+						<div class="btn">
+<!--							<span id="login"><a th:href="@{/level1/studentIndex}">登录</a></span>-->
+<!--							<span class="forget"><a href="password.html">忘记密码</a></span>-->
+							<input th:type="submit" value="登录">
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/punishment.css}">
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="header clearfix">
+                <div class="top fl">当前位置>请假申请</div>
+                <div class="bottom fr">
+                    <a href="javascript:;"  class="l">编辑</a>
+                    <a href="javascript:;" class="r">保存</a>
+                </div>
+            </div>
+            <div class="main">
+                <!--基础信息-->
+                <div class="BasicInformation">
+                    <div class="title">
+                        学生请假
+                    </div>
+                </div>
+                <div class="content clearfix">
+                    <div>
+                        <p>请假时间段</p>
+                    </div>
+
+                    <div class="reason fl">
+                        <p>请假缘由</p>
+                        <div style="margin-left: 65px ;width:515px;height:118px;">
+                            <textarea id="situation" class="oInp" disabled></textarea>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
