@@ -5,16 +5,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 //根据SpringSecurity提供的users.ddl创建实体类User
+@Component
 public class User implements UserDetails {
 
     @Autowired
-    private UserDao userDao;
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    UserDao userDao;
+
 
 
     private String username;

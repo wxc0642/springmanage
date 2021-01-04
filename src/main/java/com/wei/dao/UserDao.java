@@ -9,9 +9,10 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 
-@Component
+@Repository
 public class UserDao {
 
     @Autowired
@@ -20,7 +21,7 @@ public class UserDao {
     //增删改查
     //查找单个用户
     public CustomUser searchUser(String username){
-        String sql="select * from user_info where username='?'";
+        String sql=String.format("select * from user_info where username='%s'",username);//这里sql有点奇怪
 //        RowMapper<CustomUser> rowMapper=new BeanPropertyRowMapper<CustomUser>(CustomUser.class);
 //        return this.jdbcTemplate.queryForObject(sql,rowMapper,username);
 
@@ -29,7 +30,7 @@ public class UserDao {
 
     //查找单个用户权限
     public Limit searchLimit(String username){
-        String sql="select * from limit_set where type=(select type from user_info where username='?')";
+        String sql="select * from limit_set where type=(select type from user_info where username='"+username+"')";
 //        RowMapper<Limit> rowMapper=new BeanPropertyRowMapper<Limit>(Limit.class);
 //        return this.jdbcTemplate.queryForObject(sql,rowMapper,username);
         return JSON.parseObject(JSON.toJSONString(jdbcTemplate.queryForMap(sql)),Limit.class);
