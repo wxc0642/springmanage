@@ -6,12 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.net.PasswordAuthentication;
+
 
 
 @EnableWebSecurity
@@ -21,10 +22,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     //放开资源
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/css/**","/js/**","/images/**");
-//    }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/css/**","/js/**","/images/**");
+    }
 
     //授权
     //链式编程
@@ -35,13 +36,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //对应权限的人能够访问
        //请求授权规则
         http.authorizeRequests()
-                .antMatchers("/","/index","/showList","/showTeacherList").permitAll()
+                .antMatchers("/","/index").permitAll()
                 .antMatchers("/level1/**").hasRole("student")
                 .antMatchers("/level2/**").hasRole("teacher")
-                .antMatchers("/level3/**").hasRole("administrator");
+                .antMatchers("/level3/**").hasRole("administrator")
+                .antMatchers("/shared/info").hasAnyRole("student","teacher","administrator");
 
-        //相同域名可以嵌套网页
-        http.headers().frameOptions().sameOrigin();
+        //解决网页嵌套问题
+        http.headers().frameOptions().disable();
         //没有权限，跳到默认页面（是否有必要？有，防止从url直接登录），开启登录页面[loginPage()返回到自己写的页面]
         http.formLogin().loginPage("/toLogin");
 

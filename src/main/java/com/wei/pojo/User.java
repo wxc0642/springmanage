@@ -44,8 +44,6 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(userDao.searchLimit(username).getRole()));
         return authorities;
     }
 

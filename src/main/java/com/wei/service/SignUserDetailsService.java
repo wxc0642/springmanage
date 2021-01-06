@@ -40,6 +40,7 @@ public class SignUserDetailsService implements UserDetailsService {
         }else {
             Collection<GrantedAuthority> authorities=new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority(userDao.searchLimit(username).getRole()));
+
             String password=customUser.getPassword();
             User user=new User(customUser.getUsername(),passwordEncoder.encode(password),authorities);
             return user;

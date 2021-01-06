@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>基本信息</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
 </head>
 <body>
+    <div th:replace="~{index::commonsection}"></div>
+
+    <div class="container flgure">
+        <div class="content">
+            <div class="header clearfix">
+                <div class="top f1">当前位置>个人信息</div>
+                ::after
+            </div>
+            <div class="main">
+                <div class="BasicInformation">
+                    <div class="title">个人信息</div>
+                </div>
+                <div class="context clearfix">
+                    <span>id:</span>
+                    <p th:text="${baseInfo.id}"></p>
+                    <br/>
+                    <span>username:</span>
+                    <p th:text="${baseInfo.getUsername()}"></p>
+                    <br/>
+                    <span>group:</span>
+                    <p th:text="${groupInfo.getGroupName()}"></p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </body>
 </html>

@@ -9,18 +9,18 @@ public class CustomUser {
     private int group_id;
     private String username;
     private String password;
-    private String fingerprint;
+
     private String type;
 
     public CustomUser() {
     }
 
-    public CustomUser(int id, int group_id, String username, String password, String fingerprint, String type) {
+    public CustomUser(int id, int group_id, String username, String password, String type) {
         this.id = id;
         this.group_id = group_id;
         this.username = username;
         this.password = password;
-        this.fingerprint = fingerprint;
+
         this.type = type;
     }
 
@@ -56,14 +56,6 @@ public class CustomUser {
         this.password = password;
     }
 
-    public String getFingerprint() {
-        return fingerprint;
-    }
-
-    public void setFingerprint(String fingerprint) {
-        this.fingerprint = fingerprint;
-    }
-
     public String getType() {
         return type;
     }
@@ -79,7 +71,6 @@ public class CustomUser {
                 ", group_id=" + group_id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", fingerprint='" + fingerprint + '\'' +
                 ", type='" + type + '\'' +
                 '}';
     }
