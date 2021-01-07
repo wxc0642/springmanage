@@ -1,28 +1,12 @@
 package com.wei.pojo;
 
-import com.wei.dao.UserDao;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 //根据SpringSecurity提供的users.ddl创建实体类User
-@Component
 public class User implements UserDetails {
-
-//    @Autowired
-//    public void setUserDao(UserDao userDao) {
-//        this.userDao = userDao;
-//    }
-//
-//    UserDao userDao;
-
-
 
     private String username;
     private String password;
@@ -44,7 +28,6 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
         return authorities;
     }
 

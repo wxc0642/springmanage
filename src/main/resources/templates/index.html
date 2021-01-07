@@ -60,14 +60,14 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         <h2 class="left">计算机仿真实验室出勤管理系统</h2>
         <div class="right">
 
-            <div sec:authorize="!(hasRole('student') or hasRole('teacher') or hasRole('administrator'))">
+            <div sec:authorize="!(hasAuthority('student') or hasAuthority('teacher') or hasAuthority('administrator'))">
                 <a th:href="@{/toLogin}" style="text-decoration: none">
                     <span>登录</span>
                 </a>
             </div>
             <!--注销功能-->
 
-            <div sec:authorize="hasRole('student') or hasRole('teacher') or hasRole('administrator')">
+            <div sec:authorize="hasAuthority('student') or hasAuthority('teacher') or hasAuthority('administrator')">
                 <div class="l">
                     <span>用户名：</span> <span sec:authentication="name"></span>
                     <span>角色：</span> <span sec:authentication="principal.authorities"></span>
@@ -86,7 +86,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <!--公共栏-->
 <!--<div class="nav">-->
-<div class="nav-list" sec:authorize="hasRole('student') or hasRole('teacher') or hasRole('administrator')">
+<div class="nav-list" sec:authorize="hasAuthority('student') or hasAuthority('teacher') or hasAuthority('administrator')">
     <div class="nav-tit">
         <a th:href="@{/info}" target="_self">
             <img th:src="@{/images/personal-msg.png}" style="height: 30px" alt="">
@@ -98,7 +98,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <!--学生-->
 
-    <div class="nav-list" sec:authorize="hasRole('student')">
+    <div class="nav-list" sec:authorize="hasAuthority('student')">
 
         <div class="nav-tit">
             <a th:href="@{/student/individual_sta_fig}" target="_self">
@@ -135,7 +135,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <!--教师-->
 
-    <div class="nav-list" sec:authorize="hasRole('teacher')">
+    <div class="nav-list" sec:authorize="hasAuthority('teacher')">
         <div class="nav-tit">
             <a th:href="@{/teacher/StudentInfo}" target="_self">
                 <img th:src="@{/images/personal-msg.png}" style="height: 30px" alt="">
@@ -171,7 +171,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <!--管理员-->
 
-    <div class="nav-list" sec:authorize="hasRole('administrator')">
+    <div class="nav-list" sec:authorize="hasAuthority('administrator')">
         <div class="nav-tit">
             <a th:href="@{/administrator/allStatisticFig}" target="main">
                 <img th:src="@{/images/personal-msg.png}" style="height: 30px" alt="">
