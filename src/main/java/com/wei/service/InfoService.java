@@ -17,7 +17,9 @@ public class InfoService {
     }
 
     public Group searchGroupInfo(String username){
-        return userDao.searchGroup(username);
+        return userDao.searchGroupByName(username);
     }
+
+
 
 }

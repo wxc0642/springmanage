@@ -33,7 +33,7 @@ public class SignUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
+        User user;
         CustomUser customUser=userDao.searchUser(username);
         if (customUser==null){
             return null;
@@ -42,7 +42,7 @@ public class SignUserDetailsService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority(userDao.searchLimit(username).getRole()));
 
             String password=customUser.getPassword();
-            User user=new User(customUser.getUsername(),passwordEncoder.encode(password),authorities);
+            user=new User(customUser.getUsername(),passwordEncoder.encode(password),authorities);
             return user;
         }
     }

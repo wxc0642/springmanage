@@ -1,7 +1,12 @@
 package com.wei.pojo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.Comparator;
 import java.util.Date;
 
+@Component
 public class SignInData {
     private int id;
     private Date morin;
@@ -71,3 +76,25 @@ public class SignInData {
                 '}';
     }
 }
+
+/**
+ * 采用TreeSet数据结构存储打卡数据
+ * 1.根据id比较
+ * 2.根据时间先后比较
+ */
+
+
+//class SignInDataComparator implements Comparator<SignInData>{
+//    @Override
+//    public int compare(SignInData o1, SignInData o2) {
+//        if (o1.getId() != o2.getId()) {
+//            return o1.getId() - o2.getId();
+//        } else {
+//            Date d1=null;
+//            Date d2=null;
+//            for
+//            long compareRlt = o1.getMorin().getTime() - o2.getMorin().getTime();
+//            return (int) compareRlt;
+//        }
+//    }
+//}

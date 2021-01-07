@@ -15,12 +15,12 @@ import java.util.List;
 @Component
 public class User implements UserDetails {
 
-    @Autowired
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
-
-    UserDao userDao;
+//    @Autowired
+//    public void setUserDao(UserDao userDao) {
+//        this.userDao = userDao;
+//    }
+//
+//    UserDao userDao;
 
 
 
@@ -44,6 +44,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         return authorities;
     }
 
