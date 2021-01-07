@@ -20,14 +20,7 @@
 					<div class="login-form">
 						<h2>用户登录/LOGIN</h2>
 						<form th:action="@{/toLogin}" method="post">
-						<div class="identifire">
-							<span>身　份：</span>
-							<select>
-								<option value="学生" selected="selected">学生</option>
-								<option value="教师">教师</option>
-								<option value="系统管理员">系统管理员</option>
-							</select>
-						</div>
+
 						<div class="account clearfix">
 							<span>账　号：</span>
 							<input type="text" th:name="username" placeholder="UserName" />

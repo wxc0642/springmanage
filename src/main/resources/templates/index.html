@@ -6,7 +6,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
-    <title>目录索引总模板</title>
+    <title></title>
     <link rel="stylesheet" th:href="@{/css/StudentLeft.css}">
 
 
@@ -51,18 +51,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     </style>
 </head>
 <body>
-<!--<div th:include="StudentTop" style="overflow-scrolling: unset" rows="60,*" th:name="main"></div>-->
 
-<!--&lt;!&ndash;student权限&ndash;&gt;-->
-<!--<div th:include="level1/StudentLeft" style="overflow-scrolling: auto"  cols="210" th:name="main"></div>-->
-
-<!--&lt;!&ndash;teacher权限&ndash;&gt;-->
-<!--<div th:include="level2/TeacherLeftLeft" style="overflow-scrolling: auto"  cols="210" th:name="main"></div>-->
-
-<!--&lt;!&ndash;superManager权限&ndash;&gt;-->
-<!--<div th:include="level3/SuperManagerLeft" style="overflow-scrolling: auto"  cols="210" th:name="main"></div>-->
 
 <!--顶部栏-->
+<div th:fragment="commonsection">
 <div class="bx">
     <div class="container">
         <h2 class="left">计算机仿真实验室出勤管理系统</h2>
@@ -90,13 +82,13 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     </div>
 </div>
 
-<!--侧边栏-->
+
 
 <!--公共栏-->
-<div class="nav">
+<!--<div class="nav">-->
 <div class="nav-list" sec:authorize="hasRole('student') or hasRole('teacher') or hasRole('administrator')">
     <div class="nav-tit">
-        <a th:href="@{/info}" target="main">
+        <a th:href="@{/info}" target="_self">
             <img th:src="@{/images/personal-msg.png}" style="height: 30px" alt="">
             <span>个人信息</span>
         </a>
@@ -110,17 +102,27 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
         <div class="nav-tit">
             <a th:href="@{/student/individual_sta_fig}" target="_self">
-                <img th:src="@{/images/job-change.png}" alt="">
+                <img th:src="@{/images/job-change.png}" alt="图片">
                 <span>情况统计</span>
             </a>
         </div>
 
-        <div class="personal-list">
-            <ul>
-                <li><a th:href="@{/student/takeoffList}" target="_self">请假列表</a></li>
-                <li><a th:href="@{/student/takeoff}" target="_self">请假申请</a></li>
-            </ul>
+        <div class="nav-tit">
+            <a th:href="@{/student/takeoffList}" target="_self">
+                <img th:src="@{/images/job-change.png}" alt="图片">
+                <span>请假列表</span>
+            </a>
         </div>
+
+
+        <div class="nav-tit">
+            <a th:href="@{/student/takeoff}" target="_self">
+                <img th:src="@{/images/job-change.png}" alt="图片">
+                <span>请假申请</span>
+            </a>
+        </div>
+
+
 
         <!--				<div class="nav-tit">-->
         <!--					<a href="StudentRevise.html" target="main">-->
@@ -135,23 +137,28 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
     <div class="nav-list" sec:authorize="hasRole('teacher')">
         <div class="nav-tit">
-            <a th:href="@{/teacher/StudentInfo}" target="main">
+            <a th:href="@{/teacher/StudentInfo}" target="_self">
                 <img th:src="@{/images/personal-msg.png}" style="height: 30px" alt="">
                 <span>情况统计</span>
             </a>
         </div>
 
 
-        <div class="nav-tit" id="personal2">
-            <img th:src="@{/images/PubMed-msg.png}" alt="">
-            <span>学生信息</span>
+        <div class="nav-tit">
+            <a th:href="@{/teacher/takeoffList}" target="_self">
+                <img th:src="@{/images/PubMed-msg.png}" style="height: 30px" alt="">
+                <span>请假列表</span>
+            </a>
         </div>
-        <div class="personal-list" id="personal2_child">
-            <ul>
-                <li><a th:href="@{/teacher/takeoffList}" target="main">学生请假列表</a></li>
-                <li><a th:href="@{/teacher/takeoff}" target="main">请假审批</a></li>
-            </ul>
+
+        <div class="nav-tit">
+            <a th:href="@{/teacher/takeoff}" target="_self">
+                <img th:src="@{/images/PubMed-msg.png}" style="height: 30px" alt="">
+                <span>请假审批</span>
+            </a>
         </div>
+
+
         <!--				<div class="nav-tit">-->
         <!--					<a href="StudentRevise.html" target="main">-->
         <!--					<img src="images/modify-password.png" alt="">-->
@@ -178,7 +185,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                 <span>教师信息</span>
             </a>
         </div>
-        <div class="nav-tit" id="personal3">
+        <div class="nav-tit">
             <a th:href="@{/administrator/StudentInfoAll}" target="main">
                 <img th:src="@{/images/PubMed-msg.png}" alt="">
                 <span>学生信息</span>
@@ -198,6 +205,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
     </div>
 </div>
+
 
 </body>
 </html>

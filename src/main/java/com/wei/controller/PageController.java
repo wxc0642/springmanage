@@ -1,7 +1,14 @@
 package com.wei.controller;
 
+import com.wei.pojo.CustomUser;
+import com.wei.pojo.Group;
+import com.wei.service.InfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.security.Principal;
 
 @Controller
 public class PageController {
@@ -22,8 +29,17 @@ public class PageController {
 
 
     //公共页面
+    @Autowired
+    InfoService infoService;
+
+    Principal principal;
+
     @RequestMapping("/info")
-    public String toInfo(){
+    public String toInfo(Model model1,Model model2){
+        CustomUser customUser=infoService.searchBaseInfo(principal.getName());
+        Group group=infoService.searchGroupInfo(principal.getName());
+        model1.addAttribute("baseInfo",customUser);
+        model2.addAttribute("groupInfo",group);
         return "shared/info";
     }
 
