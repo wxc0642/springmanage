@@ -34,5 +34,14 @@ class SpringmanageApplicationTests {
                 .param("password", "1233"))
                 .andExpect(request().sessionAttributeDoesNotExist("SPRING_SECURITY_CONTEXT")).andDo(print());
     }
+    
+    
+    /**
+     * 使用测试环境h2数据库y
+     * @param args
+     */
+    public static void main(String[] args) {
+        SpringmanageApplication.main(args);
+    }
 
 }
