@@ -1,4 +1,4 @@
-package com.wei.except;
+package com.wei.exception;
 
 public class ParaLengthException extends Exception{
     public ParaLengthException() {

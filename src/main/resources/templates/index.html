@@ -8,47 +8,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <meta charset="UTF-8">
     <title></title>
     <link rel="stylesheet" th:href="@{/css/StudentLeft.css}">
+    <link rel="stylesheet" th:href="@{/css/pageTop.css}">
 
-
-    <style type="text/css">
-        *{
-            margin: 0;
-            padding: 0;
-        }
-        .bx{
-            height: 60px;
-            width: 100%;
-            background: #177ec1;
-        }
-        .bx .container{
-            margin: 0 60px;
-            overflow: hidden;
-        }
-        .bx .container .left{
-            width: 340px;
-            height: 43px;
-            padding-top: 19px;
-            color: #FFFFFF;
-            font-size: 24px;
-            float: left;
-        }
-        .bx .container .right{
-            overflow: hidden;
-            width: 350px;
-            padding-top: 19px;
-            float: right;
-        }
-        .bx .container .right span{
-            font-size: 16px;
-            color: #fff;
-        }
-        .bx .container .right .l{
-            float: left;
-        }
-        .bx .container .right .r{
-            float: right;
-        }
-    </style>
 </head>
 <body>
 
@@ -86,14 +47,17 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <!--公共栏-->
 <!--<div class="nav">-->
-<div class="nav-list" sec:authorize="hasAuthority('student') or hasAuthority('teacher') or hasAuthority('administrator')">
+<div class="nav">
+
+    <div class="nav-list1" sec:authorize="hasAuthority('student') or hasAuthority('teacher') or hasAuthority('administrator')">
     <div class="nav-tit">
-        <a th:href="@{/info}" target="_self">
+        <a th:href="@{/shared/info}" target="_self">
             <img th:src="@{/images/personal-msg.png}" style="height: 30px" alt="">
             <span>个人信息</span>
         </a>
     </div>
-</div>
+    </div>
+
 
 
 <!--学生-->
@@ -206,6 +170,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     </div>
 </div>
 
-
+</div>
 </body>
 </html>

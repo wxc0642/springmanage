@@ -1,6 +1,7 @@
 package com.wei.controller;
 
 import com.wei.pojo.CustomUser;
+import com.wei.service.FileService;
 import com.wei.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,16 +23,21 @@ public class AdministratorController {
     //整体学生的统计
     @RequestMapping("/administrator/allStatisticFig")
     public String allStatisticFig(){
+
         return "level3/StatisticalFigureAll";
     }
 
     //用户列表
     @RequestMapping("/administrator/UserInfoList")
-    public String studentInfoAll(){
-
+    public String studentInfoAll(Model model){
+        //如何从前端获取到group_id
+        int group_id=1;
+        List<CustomUser> allCustomUsers=userInfoService.getAllUser();
+        List<CustomUser> groupUsers=userInfoService.getUserByGroupId(group_id);
+        model.addAttribute("AllUserList",allCustomUsers);
+        model.addAttribute("GroupUser",groupUsers);
         return "level3/userList";
     }
-
 
     /**
      * 添加（Restful风格）
@@ -61,5 +69,22 @@ public class AdministratorController {
      * 1.GetMapping 查出对应id的用户的数据，选中，或者value值（当进入修改页面时，应该对应显示信息）
      * 2.PostMapping 修改后
      */
+
+    @Autowired
+    private FileService fileService;
+
+    @RequestMapping(value = "/file/upload")
+    public String fileUpload(@RequestParam("file")MultipartFile file,Model model){
+
+        return "level3/StatisticalFigureAll";
+    }
+
+
+
+
+
+
+
+
 
 }

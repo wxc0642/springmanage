@@ -10,7 +10,9 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @Repository
@@ -53,6 +55,8 @@ public class UserDao {
      */
 
 
+
+
     //按id查找
    public CustomUser searchUserById(int id){
        String sql="select * from user_info where id="+id;
@@ -61,9 +65,9 @@ public class UserDao {
 
 
     //查找同一组人员
-    public List<CustomUser> searchUsersByGroup(int group_id){
+    public List<Map<String,Object>> searchUsersByGroup(int group_id){
         String sql=String.format("select * from user_info where group_id='%s' order by id",group_id);
-        return jdbcTemplate.queryForList(sql,CustomUser.class);
+        return jdbcTemplate.queryForList(sql);
     }
 
     //按名字查找所在组
@@ -73,9 +77,9 @@ public class UserDao {
     }
 
     //所有用户列表
-    public List<CustomUser> searchAllUsers(){
+    public List<Map<String,Object>> searchAllUsers(){
         String sql="select * from user_info order by group_id,id";
-        return jdbcTemplate.queryForList(sql,CustomUser.class);
+        return jdbcTemplate.queryForList(sql);
     }
 
     //增删人员

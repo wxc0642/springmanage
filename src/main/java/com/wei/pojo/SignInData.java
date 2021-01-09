@@ -13,16 +13,18 @@ public class SignInData {
     private Date morout;
     private Date afterin;
     private Date afterout;
+    private String timeTag;
 
     public SignInData() {
     }
 
-    public SignInData(int id, Date morin, Date morout, Date afterin, Date afterout) {
+    public SignInData(int id, Date morin, Date morout, Date afterin, Date afterout,String timeTag) {
         this.id = id;
         this.morin = morin;
         this.morout = morout;
         this.afterin = afterin;
         this.afterout = afterout;
+        this.timeTag=timeTag;
     }
 
     public int getId() {
@@ -65,6 +67,15 @@ public class SignInData {
         this.afterout = afterout;
     }
 
+
+    public String getTimeTag() {
+        return timeTag;
+    }
+
+    public void setTimeTag(String timeTag) {
+        this.timeTag = timeTag;
+    }
+
     @Override
     public String toString() {
         return "SignInData{" +
@@ -73,6 +84,7 @@ public class SignInData {
                 ", morout=" + morout +
                 ", afterin=" + afterin +
                 ", afterout=" + afterout +
+                ", timeTag='" + timeTag + '\'' +
                 '}';
     }
 }

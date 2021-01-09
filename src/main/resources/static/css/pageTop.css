@@ -1,0 +1,38 @@
+
+*{
+    margin: 0;
+    padding: 0;
+}
+.bx{
+    height: 60px;
+    width: 100%;
+    background: #177ec1;
+}
+.bx .container{
+    margin: 0 60px;
+    overflow: hidden;
+}
+.bx .container .left{
+    width: 340px;
+    height: 43px;
+    padding-top: 19px;
+    color: #FFFFFF;
+    font-size: 24px;
+    float: left;
+}
+.bx .container .right{
+    overflow: hidden;
+    width: 350px;
+    padding-top: 19px;
+    float: right;
+}
+.bx .container .right span{
+    font-size: 16px;
+    color: #fff;
+}
+.bx .container .right .l{
+    float: left;
+}
+.bx .container .right .r{
+    float: right;
+}

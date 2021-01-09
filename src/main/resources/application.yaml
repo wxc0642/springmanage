@@ -2,12 +2,20 @@ spring:
   datasource:
     username: root
     password: 1997wxc
-    url: jdbc:mysql://localhost:3306/manage?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/manage?serverTimezone=GMT&useUnicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 
-#后面根据输入格式确定要不要配置
-#spring:
-#  mvc:
-#    format:
-#      date-time: yyyy-MM-dd HH:mm:ss
+---
+spring:
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+
+---
+#文件上传限制
+spring:
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 20MB

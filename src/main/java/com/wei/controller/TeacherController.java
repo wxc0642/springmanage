@@ -1,19 +1,43 @@
 package com.wei.controller;
 
+import com.wei.pojo.SignInData;
+import com.wei.service.GetUserPrincipal;
+import com.wei.service.InfoService;
+import com.wei.service.SignInService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.List;
+
 
 @Controller
 public class TeacherController {
+
+    @Autowired
+    InfoService infoService;
+
+    @Autowired
+    SignInService signInService;
+
+    @Autowired
+    GetUserPrincipal getUserPrincipal;
+
     //teacher的跳转页面
     @RequestMapping("/teacher/StudentInfo")
-    public String studentInfo(){
+    public String studentInfo(Model model){
+        int group_id=infoService.searchGroupInfo(getUserPrincipal.getUsername()).getGroup_id();
+        List<SignInData> customUsers=signInService.searchDataByGAndTime(group_id);
+        model.addAttribute("TStudentSignInData",customUsers);
         return "level2/StudentInfo";
     }
+
+
     @RequestMapping("/teacher/takeoffList")
     public String takeOffListM(){
         return "level2/takeoffListM";
     }
+
 
     @RequestMapping("/teacher/takeoff")
     public String takeOffM(){

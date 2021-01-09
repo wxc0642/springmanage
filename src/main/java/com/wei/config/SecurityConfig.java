@@ -36,11 +36,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //对应权限的人能够访问
        //请求授权规则
         http.authorizeRequests()
-                .antMatchers("/","/index").hasAnyAuthority("student","teacher","administrator")
-                .antMatchers("/student/**").hasRole("student")
-                .antMatchers("/level2/**").hasRole("teacher")
-                .antMatchers("/level3/**").hasRole("administrator")
-                .antMatchers("/shared/info").hasAnyRole("student","teacher","administrator");
+                .antMatchers("/","/index").permitAll()
+                .antMatchers("/student/**").hasAuthority("student")
+                .antMatchers("/teacher/**").hasAuthority("teacher")
+                .antMatchers("/administrator/**").hasAuthority("administrator")
+                .antMatchers("/shared/info").hasAnyAuthority("student","teacher","administrator");
 
         //解决网页嵌套问题
         http.headers().frameOptions().disable();
