@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="assets/css/layui.css">
-    <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="stylesheet" th:href="@{/assets/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
     <link rel="icon" href="/favicon.ico">
     <title>管理后台</title>
 </head>
@@ -20,11 +21,13 @@
             </ul>
 
             <ul class="layui-nav layui-layout-right">
-                <li class="layui-nav-item">
-                    <a href="javascript:;">BieJun</a>
+                <a th:href="@{/toLogin}" sec:authorize="!(hasAuthority('student') or hasAuthority('teacher') or hasAuthority('administrator'))">登录</a>
+                <li class="layui-nav-item" sec:authorize="hasAuthority('student') or hasAuthority('teacher') or hasAuthority('administrator')">
+
+                    <a href="javascript:;" sec:authentication="name"></a>
+
                     <dl class="layui-nav-child">
-                        <dd><a href="">帮助中心</a></dd>
-                        <dd><a href="login.html">退出</a></dd>
+                        <dd><a th:href="@{/logout}">退出</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -38,15 +41,17 @@
                     <h1>Admin Pro</h1>
                 </div>
                 <ul id="Nav" class="layui-nav layui-nav-tree">
-                    <li class="layui-nav-item">
+<!--    公共信息 -->
+                    <li class="layui-nav-item" sec:authorize="hasAuthority('student') or hasAuthority('teacher') or hasAuthority('administrator')">
                         <a href="javascript:;">
                             <i class="layui-icon">&#xe609;</i>
                             <em>主页</em>
                         </a>
                         <dl class="layui-nav-child">
-                            <dd><a href="views/console.html">控制台</a></dd>
+                            <dd><a th:href="@{/shared/info}">个人信息</a></dd>
                         </dl>
                     </li>
+
                     <li class="layui-nav-item">
                         <a href="javascript:;">
                             <i class="layui-icon">&#xe857;</i>
@@ -64,14 +69,14 @@
                             </dd>
                         </dl>
                     </li>
-                    <li class="layui-nav-item">
+                    <li class="layui-nav-item" sec:authorize="hasAuthority('administrator')">
                         <a href="javascript:;">
                             <i class="layui-icon">&#xe612;</i>
-                            <em>用户</em>
+                            <em>数据管理</em>
                         </a>
                         <dl class="layui-nav-child">
-                            <dd><a href="views/users.html">用户组</a></dd>
-                            <dd><a href="views/operaterule.html">权限配置</a></dd>
+                            <dd><a href="views/users.html">用户管理</a></dd>
+                            <dd><a href="views/operaterule.html">打卡数据</a></dd>
                         </dl>
                     </li>
                 </ul>
@@ -87,12 +92,12 @@
         </div>
 
         <div class="layui-footer">
-            <p>© 2018 更多模板：<a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>
+            <p>©xxx版权所有</p>
         </div>
 
         <div class="mobile-mask"></div>
     </div>
-    <script src="assets/layui.js"></script>
-    <script src="index.js" data-main="home"></script>
+    <script th:src="@{/assets/layui.js}"></script>
+    <script th:src="@{/js/index.js}" data-main="home"></script>
 </body>
 </html>

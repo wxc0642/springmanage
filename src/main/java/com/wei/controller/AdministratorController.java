@@ -1,9 +1,16 @@
 package com.wei.controller;
 
 import com.wei.pojo.CustomUser;
+import com.wei.pojo.SignInData;
 import com.wei.service.FileService;
+import com.wei.service.SignInService;
 import com.wei.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,9 +36,7 @@ public class AdministratorController {
 
     //用户列表
     @RequestMapping("/administrator/UserInfoList")
-    public String studentInfoAll(Model model){
-        //如何从前端获取到group_id
-        int group_id=1;
+    public String studentInfoAll(@RequestParam("group_id")int group_id, Model model){
         List<CustomUser> allCustomUsers=userInfoService.getAllUser();
         List<CustomUser> groupUsers=userInfoService.getUserByGroupId(group_id);
         model.addAttribute("AllUserList",allCustomUsers);
@@ -70,21 +75,33 @@ public class AdministratorController {
      * 2.PostMapping 修改后
      */
 
+
+    /**
+     * 文件上传
+     */
     @Autowired
     private FileService fileService;
+    @Autowired
+    SignInService signInService;
 
     @RequestMapping(value = "/file/upload")
     public String fileUpload(@RequestParam("file")MultipartFile file,Model model){
-
+        fileService.changeFileFormat(file);
+        List<SignInData> signInDataList=signInService.searchAll();
+        model.addAttribute("allSignInData",signInDataList);
         return "level3/StatisticalFigureAll";
     }
 
-
-
-
-
-
-
-
+    @RequestMapping("/file/download")
+    public ResponseEntity fileDownload() throws Exception{
+        FileSystemResource file=new FileSystemResource("C:\\Users\\wxc\\Desktop\\springmanage\\src\\main\\resources\\static\\images\\404.png");
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Content-Disposition","attachment;filename=SignInData.txt");
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(file.contentLength())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(new InputStreamResource(file.getInputStream()));
+    }
 
 }

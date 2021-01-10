@@ -28,6 +28,7 @@ public class SignInService {
             signInData.setMorout((Date)map.get("morout"));
             signInData.setAfterin((Date)map.get("afterin"));
             signInData.setAfterout((Date)map.get("afterout"));
+            signInData.setTimeTag((String)map.get("timeTag"));
             lists.add(signInData);
         }
         return lists;
@@ -78,6 +79,14 @@ public class SignInService {
             return null;
         }
     }
+
+    /**
+     * 查找所有数据
+     */
+    public List<SignInData> searchAll(){
+        return mapToList(signInDao.searchAll());
+    }
+
 
     /**
      * 以下两个方法仅提供给管理员（涉及删除，数据变动，考虑并发）

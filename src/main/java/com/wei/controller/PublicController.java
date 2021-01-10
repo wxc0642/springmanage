@@ -18,7 +18,7 @@ public class PublicController {
 //登录
     @RequestMapping("/toLogin")
     public String toLogin(){
-        return "/Login";
+        return "/login";
     }
 
     //导航页

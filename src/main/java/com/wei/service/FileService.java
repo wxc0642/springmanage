@@ -18,14 +18,22 @@ public class FileService {
     @Autowired
     SignInDao signInDao;
 
-    public void changeFileFormat(MultipartFile file) throws Exception{
-
-        InputStream is=file.getInputStream();
+    /**
+     * 改变格式以及存入数据库
+     * @param file
+     */
+    public void changeFileFormat(MultipartFile file){
+        InputStream is=null;
+        try {
+            is = file.getInputStream();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         Scanner scan_is=new Scanner(is);
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         while(scan_is.hasNextLine()) {
             String signInDataLine = scan_is.nextLine();
-            String[] signInDataCols=signInDataLine.split(":");
+            String[] signInDataCols=signInDataLine.split("=");
             int id=0;
             try{
                 id=Integer.parseInt(signInDataCols[0]);
@@ -34,7 +42,12 @@ public class FileService {
                 e.printStackTrace();
             }
             String time=signInDataCols[2];
-            Date dateTime=sdf.parse(time);
+            Date dateTime=null;
+            try {
+                dateTime = sdf.parse(time);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
            signInDao.setSignInDataAndTag(id,dateTime,checkSignInTime(time));
         }
 
@@ -73,6 +86,9 @@ public class FileService {
             return "timeOut";
         }
     }
+
+
+
 
 
 }
