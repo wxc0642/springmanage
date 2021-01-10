@@ -49,7 +49,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <!--<div class="nav">-->
 <div class="nav">
 
-    <div class="nav-list1" sec:authorize="hasAuthority('student') or hasAuthority('teacher') or hasAuthority('administrator')">
+    <div class="nav-list" sec:authorize="hasAuthority('student') or hasAuthority('teacher') or hasAuthority('administrator')">
     <div class="nav-tit">
         <a th:href="@{/shared/info}" target="_self">
             <img th:src="@{/images/personal-msg.png}" style="height: 30px" alt="">
