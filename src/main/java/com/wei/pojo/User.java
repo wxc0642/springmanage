@@ -4,7 +4,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-
 //根据SpringSecurity提供的users.ddl创建实体类User
 public class User implements UserDetails {
 

@@ -44,6 +44,10 @@ public class UserInfoService {
         return mapToList(userDao.searchAllUsers());
     }
 
+    public CustomUser searchIndividual(int id){
+        return userDao.searchUserById(id);
+    }
+
     /**
      * 根据group_id找用户
      */

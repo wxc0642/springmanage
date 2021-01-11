@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Repository
@@ -27,9 +28,9 @@ public class GroupDao {
     }
 
     //查找全部组
-    public List<Group> searchForGroups(){
+    public List<Map<String,Object>> searchForGroups(){
         String sql="select * from group_set order by group_id";
-        return jdbcTemplate.queryForList(sql,Group.class);
+        return jdbcTemplate.queryForList(sql);
     }
 
     //查找group_id对应的组名

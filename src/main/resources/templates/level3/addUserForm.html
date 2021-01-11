@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" th:href="@{/assets/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/view.css}"/>
+    <title></title>
+</head>
+<body class="layui-view-body">
+    <div class="layui-content">
+        <div class="layui-row">
+            <div class="layui-card">
+                <div class="layui-card-header">添加用户</div>
+                <form class="layui-form layui-card-body" th:action="@{/administrator/addUser}" method="post">
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">用户名</label>
+                    <div class="layui-input-block">
+                      <input type="text" name="username" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">密码框</label>
+                    <div class="layui-input-inline">
+                      <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                    </div>
+<!--                    <div class="layui-form-mid layui-word-aux">辅助文字</div>-->
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">选择组别</label>
+                    <div class="layui-input-block">
+                      <select name="group_id" lay-verify="required">
+                        <option th:each="group:${groups}" th:text="${group.getGroupName()}" th:value="${group.getGroup_id()}"></option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">选择类别</label>
+                    <div class="layui-input-block">
+                        <select name="type" lay-verify="required">
+                            <option value="student">学生</option>
+                            <option value="teacher">教师</option>
+                            <option value="administrator">管理员</option>
+                        </select>
+                    </div>
+                  </div>
+
+                  <div class="layui-form-item">
+                    <div class="layui-input-block">
+                      <button class="layui-btn layui-btn-blue" lay-submit lay-filter="formDemo">提交</button>
+
+                    </div>
+                  </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/assets/layui.all.js}"></script>
+    <script>
+      var form = layui.form
+        ,layer = layui.layer;
+    </script>
+</body>
+</html>

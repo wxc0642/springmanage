@@ -1,8 +1,10 @@
 package com.wei.controller;
 
 import com.wei.pojo.CustomUser;
+import com.wei.pojo.Group;
 import com.wei.pojo.SignInData;
 import com.wei.service.FileService;
+import com.wei.service.GroupService;
 import com.wei.service.SignInService;
 import com.wei.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -36,12 +35,13 @@ public class AdministratorController {
 
     //用户列表
     @RequestMapping("/administrator/UserInfoList")
-    public String studentInfoAll(@RequestParam("group_id")int group_id, Model model){
+    public String userInfoAll(Model model){
+    //public String studentInfoAll(@RequestParam("group_id")int group_id, Model model){
         List<CustomUser> allCustomUsers=userInfoService.getAllUser();
-        List<CustomUser> groupUsers=userInfoService.getUserByGroupId(group_id);
+    //    List<CustomUser> groupUsers=userInfoService.getUserByGroupId(group_id);
         model.addAttribute("AllUserList",allCustomUsers);
-        model.addAttribute("GroupUser",groupUsers);
-        return "level3/userList";
+    //    model.addAttribute("GroupUser",groupUsers);
+        return "level3/showUsers";
     }
 
     /**
@@ -51,20 +51,19 @@ public class AdministratorController {
      * 1.先getMapping,查出用户信息
      * 2.PostMapping,调用方法，保存信息，并且重定向到整个用户列表位置
      */
+    @Autowired
+    GroupService groupService;
     @GetMapping("/administrator/addUser")
     public String toAddUserPage(Model model){
-        List<CustomUser> customUsersList=userInfoService.getAllUser();
-        model.addAttribute("customUsers",customUsersList);
-        return "level3/addUser";
+        List<Group> groups=groupService.getAllGroup();
+        model.addAttribute("groups",groups);
+        return "level3/addUserForm";
     }
 
     @PostMapping("/administrator/addUser")
     public String addUser(CustomUser customUser){
-        //测试是否有值传进来
-        System.out.println(customUser);
-        //保存添加的用户
         userInfoService.saveUser(customUser);
-        //回到用户列表页面
+        //重定向到用户列表页面
         return "redirect:/administrator/UserInfoList";
     }
 
@@ -74,7 +73,28 @@ public class AdministratorController {
      * 1.GetMapping 查出对应id的用户的数据，选中，或者value值（当进入修改页面时，应该对应显示信息）
      * 2.PostMapping 修改后
      */
+     @GetMapping("/administrator/update/{id}")
+     public String toUpdateUser(@PathVariable("id")int id, Model model){
+         CustomUser customUser=userInfoService.searchIndividual(id);
+         List<Group> groups=groupService.getAllGroup();
 
+         model.addAttribute("individualInfo",customUser);
+         model.addAttribute("groups",groups);
+
+         return "level3/update";
+     }
+
+     @PostMapping("/administrator/update/{id}")
+     public String updateUser(CustomUser customUser){
+         userInfoService.saveUser(customUser);
+         return "redirect:/administrator/UserInfoList";
+     }
+
+     @GetMapping("/administrator/delete/{id}")
+     public String deleteUser(@PathVariable("id")int id){
+         userInfoService.deleteUser(id);
+         return "redirect:/administrator/UserInfoList";
+     }
 
     /**
      * 文件上传
