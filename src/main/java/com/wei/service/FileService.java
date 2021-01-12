@@ -2,10 +2,17 @@ package com.wei.service;
 
 import com.wei.dao.SignInDao;
 import com.wei.exception.TimeOutException;
+import com.wei.pojo.SignInData;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -95,7 +102,57 @@ public class FileService {
     }
 
 
+    /**
+     * 文件下载前处理（创建Excel表格，将数据记录到表格中）
+     */
+    public void exportExcel(HttpServletResponse response,
+                                   List<Map<String,Object>> signInDataList,
+                                   String sheetName,
+                                   String fileName,
+                                   int columnWith) throws IOException{
 
+
+        //声明一个工作簿
+        HSSFWorkbook hssfWorkbook=new HSSFWorkbook();
+
+        //生成一个表格，设置表格名称
+        HSSFSheet hssfSheet=hssfWorkbook.createSheet(sheetName);
+
+        //设置表格列宽度
+        hssfSheet.setDefaultColumnWidth(columnWith);
+
+        //写入signInDataList中的数据
+        int rowIndex=0;
+        for(Map<String,Object> signInData:signInDataList){
+            //创建一个row，自增1
+            HSSFRow hssfRow=hssfSheet.createRow(rowIndex++);
+            //添加本行数据
+            String idString=Integer.toString((int)signInData.get("id"));
+            hssfRow.createCell(0).setCellValue(idString);
+
+
+            Date[] dates={(Date)signInData.get("morin"),
+                    (Date)signInData.get("morout"),
+                    (Date)signInData.get("afterin"),
+                    (Date)signInData.get("afterout")};
+
+            for(int i=0;i<dates.length;i++){
+                HSSFCell cell=hssfRow.createCell(i+1);
+                if(dates[i]==null) continue;
+                else{
+                    cell.setCellValue(dates[i]);
+                }
+
+            }
+
+        }
+
+        response.flushBuffer();
+        //hssfWorkbook将Excel写到respose的输出流中，供页面下载文件
+        hssfWorkbook.write(response.getOutputStream());
+
+        hssfWorkbook.close();
+    }
 
 
 }

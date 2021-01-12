@@ -1,5 +1,6 @@
 package com.wei.controller;
 
+import com.wei.dao.SignInDao;
 import com.wei.pojo.CustomUser;
 import com.wei.pojo.Group;
 import com.wei.pojo.SignInData;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AdministratorController {
@@ -125,9 +127,14 @@ public class AdministratorController {
 //                .contentType(MediaType.parseMediaType("application/octet-stream"))
 //                .body(new InputStreamResource(file.getInputStream()));
 //    }
+    @Autowired
+    SignInDao signInDao;
     @RequestMapping("/administrator/download")
     public void fileDownload(HttpServletResponse response) throws Exception{
-
+        List<Map<String,Object>> signInDataList=signInDao.searchAll();
+        String fileName="SignInData.xls";
+        String sheetName="所有数据";
+        fileService.exportExcel(response,signInDataList,fileName,sheetName,20);
     }
 
 }
