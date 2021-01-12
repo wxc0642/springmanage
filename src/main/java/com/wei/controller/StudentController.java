@@ -24,14 +24,11 @@ public class StudentController {
     GetUserPrincipal getUserPrincipal;
 
     //student的跳转页面
-    @RequestMapping("/student/individual_sta_fig")
+    @RequestMapping("/student/selfData")
     public String searchStaticFig(Model model){
         List<SignInData> studentAllSignInData=signInService.searchAllSignInData(getUserPrincipal.getUsername());
-        for(SignInData signInData:studentAllSignInData){
-            System.out.println(signInData);
-        }
         model.addAttribute("IndividualAllData",studentAllSignInData);
-        return "level1/IndividualStatisticalFigure";
+        return "level1/selfSignInData";
     }
 
     @RequestMapping("/student/individual_sta_fig/date")

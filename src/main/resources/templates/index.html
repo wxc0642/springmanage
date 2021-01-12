@@ -51,22 +51,16 @@
                             <dd><a th:href="@{/shared/info}">个人信息</a></dd>
                         </dl>
                     </li>
-
-                    <li class="layui-nav-item">
+<!--学生-->
+                    <li class="layui-nav-item" sec:authorize="hasAuthority('student')">
                         <a href="javascript:;">
                             <i class="layui-icon">&#xe857;</i>
-                            <em>组件</em>
+                            <em>数据查看</em>
                         </a>
                         <dl class="layui-nav-child">
-                            <dd><a href="views/form.html">表单</a></dd>
-                            <dd>
-                                <a href="javascript:;">页面</a>
-                                <dl class="layui-nav-child">
-                                    <dd>
-                                        <a href="login.html">登录页</a>
-                                    </dd>
-                                </dl>
-                            </dd>
+                            <dd><a th:href="@{/student/selfData}">打卡数据</a></dd>
+                            <dd><a href="">请假记录</a></dd>
+                            <dd><a href="">请假申请</a></dd>
                         </dl>
                     </li>
                     <li class="layui-nav-item" sec:authorize="hasAuthority('administrator')">
@@ -76,7 +70,18 @@
                         </a>
                         <dl class="layui-nav-child">
                             <dd><a th:href="@{/administrator/UserInfoList}">用户管理</a></dd>
-                            <dd><a href="views/operaterule.html">打卡数据</a></dd>
+                            <dd><a th:href="@{/administrator/allSignInData}">打卡数据</a></dd>
+                        </dl>
+                    </li>
+
+                    <!--教师-->
+                    <li class="layui-nav-item" sec:authorize="hasAuthority('teacher')">
+                        <a href="javascript:;">
+                            <i class="layui-icon">&#xe612;</i>
+                            <em>数据查看</em>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a th:href="@{/teacher/studentInfo}">打卡数据</a></dd>
                         </dl>
                     </li>
                 </ul>

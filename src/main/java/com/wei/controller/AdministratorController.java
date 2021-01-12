@@ -27,10 +27,13 @@ public class AdministratorController {
     UserInfoService userInfoService;
     //superManager的跳转页面
     //整体学生的统计
-    @RequestMapping("/administrator/allStatisticFig")
-    public String allStatisticFig(){
-
-        return "level3/StatisticalFigureAll";
+    @RequestMapping("/administrator/allSignInData")
+    public String allStatisticFig(Model model){
+        List<SignInData> signInDataList=signInService.searchAll();
+        List<CustomUser> customUsers=userInfoService.getAllUser();
+        model.addAttribute("allSignInData",signInDataList);
+        model.addAttribute("allUsers",customUsers);
+        return "level3/signInData";
     }
 
     //用户列表
@@ -104,15 +107,15 @@ public class AdministratorController {
     @Autowired
     SignInService signInService;
 
-    @RequestMapping(value = "/file/upload")
-    public String fileUpload(@RequestParam("file")MultipartFile file,Model model){
+    @RequestMapping("/administrator/upload")
+    public String fileUpload(@RequestParam("file")MultipartFile file){
         fileService.changeFileFormat(file);
-        List<SignInData> signInDataList=signInService.searchAll();
-        model.addAttribute("allSignInData",signInDataList);
-        return "level3/StatisticalFigureAll";
+
+        return "redirect:/administrator/allSignInData";
     }
 
-    @RequestMapping("/file/download")
+
+    @RequestMapping("/administrator/download")
     public ResponseEntity fileDownload() throws Exception{
         FileSystemResource file=new FileSystemResource("C:\\Users\\wxc\\Desktop\\springmanage\\src\\main\\resources\\static\\images\\404.png");
         HttpHeaders headers=new HttpHeaders();

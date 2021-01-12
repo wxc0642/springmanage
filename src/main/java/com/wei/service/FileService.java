@@ -1,6 +1,7 @@
 package com.wei.service;
 
 import com.wei.dao.SignInDao;
+import com.wei.exception.TimeOutException;
 import com.wei.pojo.SignInData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -16,6 +18,7 @@ public class FileService {
 
 
     @Autowired
+
     SignInDao signInDao;
 
     /**
@@ -41,14 +44,20 @@ public class FileService {
             }catch (NumberFormatException e){
                 e.printStackTrace();
             }
-            String time=signInDataCols[2];
-            Date dateTime=null;
+            String time=signInDataCols[1];
+
+            Timestamp timestamp=null;
             try {
-                dateTime = sdf.parse(time);
+                long dateTime = sdf.parse(time).getTime();
+                timestamp=new Timestamp(dateTime);
             }catch (Exception e){
                 e.printStackTrace();
             }
-           signInDao.setSignInDataAndTag(id,dateTime,checkSignInTime(time));
+            try {
+                signInDao.setSignInDataAndTag(id, timestamp, checkSignInTime(time));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
     }
@@ -58,7 +67,7 @@ public class FileService {
      * @param time
      * @return
      */
-    public String checkSignInTime(String time){
+    public String checkSignInTime(String time) throws Exception{
         final String MSI1="07:00:00";
         final String MSI2="09:10:00";
         final String MSO1="11:30:00";
@@ -68,8 +77,8 @@ public class FileService {
         final String MNO1="17:30:00";
         final String MNO2="18:10:00";
         char[] toArray=time.toCharArray();
-        String time_con=null;
-        for(int i=0;i<10;i++){
+        String time_con="";
+        for(int i=0;i<11;i++){
             time_con+=toArray[i];
         }
 
@@ -83,7 +92,7 @@ public class FileService {
         }else if(((time_con+MNO1).compareTo(time))<0&&((time_con+MNO2).compareTo(time))>0){
             return "afterout";
         }else{
-            return "timeOut";
+            throw new TimeOutException("不在打卡时间段内");
         }
     }
 
