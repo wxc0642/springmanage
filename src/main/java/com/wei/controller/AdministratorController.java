@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -100,31 +101,33 @@ public class AdministratorController {
      }
 
     /**
-     * 文件上传
+     * 文件上传，使用@RequestMapping
      */
     @Autowired
     private FileService fileService;
     @Autowired
     SignInService signInService;
-
     @RequestMapping("/administrator/upload")
     public String fileUpload(@RequestParam("file")MultipartFile file){
         fileService.changeFileFormat(file);
-
         return "redirect:/administrator/allSignInData";
     }
 
 
+//    @RequestMapping("/administrator/download")
+//    public ResponseEntity fileDownload() throws Exception{
+//        FileSystemResource file=new FileSystemResource("C:\\Users\\wxc\\Desktop\\springmanage\\src\\main\\resources\\static\\images\\404.png");
+//        HttpHeaders headers=new HttpHeaders();
+//        headers.add("Content-Disposition","attachment;filename=SignInData.txt");
+//        return ResponseEntity.ok()
+//                .headers(headers)
+//                .contentLength(file.contentLength())
+//                .contentType(MediaType.parseMediaType("application/octet-stream"))
+//                .body(new InputStreamResource(file.getInputStream()));
+//    }
     @RequestMapping("/administrator/download")
-    public ResponseEntity fileDownload() throws Exception{
-        FileSystemResource file=new FileSystemResource("C:\\Users\\wxc\\Desktop\\springmanage\\src\\main\\resources\\static\\images\\404.png");
-        HttpHeaders headers=new HttpHeaders();
-        headers.add("Content-Disposition","attachment;filename=SignInData.txt");
-        return ResponseEntity.ok()
-                .headers(headers)
-                .contentLength(file.contentLength())
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .body(new InputStreamResource(file.getInputStream()));
+    public void fileDownload(HttpServletResponse response) throws Exception{
+
     }
 
 }

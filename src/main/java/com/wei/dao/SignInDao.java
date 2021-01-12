@@ -2,6 +2,7 @@ package com.wei.dao;
 
 import com.alibaba.fastjson.JSON;
 import com.wei.exception.ParaLengthException;
+import com.wei.exception.RepeatException;
 import com.wei.pojo.CustomUser;
 import com.wei.pojo.SignInData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,7 +133,7 @@ public class SignInDao {
     /**
      * 从外部读入打卡记录
      */
-    public void setSignInDataAndTag(int id,Date date,String time){
+    public void setSignInDataAndTag(int id,Date date,String time) throws RepeatException{
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         String timeTag=sdf.format(date);
         //查看是否有时间标签，如果有，说明这一天已经有一条记录在内
@@ -145,15 +146,15 @@ public class SignInDao {
         //没有时间标签时，需插入id,打卡时间,时间标签
         String sql4=String.format("insert into book_in_set(id,%s,timeTag) values('%s','%s','%s')",time,id,date,timeTag);
 
-        int timeTagCount=jdbcTemplate.queryForObject(sql1, Integer.class);
-        int timeCount=jdbcTemplate.queryForObject(sql2, Integer.class);
+       int timeTagCount = jdbcTemplate.queryForObject(sql1, Integer.class);
+       int timeCount = jdbcTemplate.queryForObject(sql2, Integer.class);
 
 
 //        String beTimeTag=jdbcTemplate.queryForObject(sql1,String.class);
 //        Date beDate=jdbcTemplate.queryForObject(sql2,Date.class);
         if(timeTagCount!=0){
             if(timeCount!=0){
-                System.out.println("重复数据");
+                throw new RepeatException("数据重复");
             }else {
                 jdbcTemplate.update(sql3);
             }

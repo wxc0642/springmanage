@@ -2,12 +2,10 @@ package com.wei.service;
 
 import com.wei.dao.SignInDao;
 import com.wei.exception.TimeOutException;
-import com.wei.pojo.SignInData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
