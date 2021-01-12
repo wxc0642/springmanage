@@ -107,8 +107,8 @@ public class FileService {
      */
     public void exportExcel(HttpServletResponse response,
                                    List<Map<String,Object>> signInDataList,
-                                   String sheetName,
                                    String fileName,
+                                   String sheetName,
                                    int columnWith) throws IOException{
 
 
@@ -147,7 +147,7 @@ public class FileService {
 
         }
 
-        response.setHeader("Content-Disposition","attachment;filename="+fileName);
+        response.setHeader("Content-Disposition","attachment;filename="+new String(fileName.getBytes("UTF-8"),"iso-8859-1"));
         response.setContentType("application/vnd.ms-excel");
         response.flushBuffer();
         //hssfWorkbook将Excel写到respose的输出流中，供页面下载文件
