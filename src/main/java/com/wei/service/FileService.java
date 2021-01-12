@@ -131,7 +131,7 @@ public class FileService {
             hssfRow.createCell(0).setCellValue(idString);
 
 
-            Date[] dates={(Date)signInData.get("morin"),
+            Date[] dates={(Date) signInData.get("morin"),
                     (Date)signInData.get("morout"),
                     (Date)signInData.get("afterin"),
                     (Date)signInData.get("afterout")};
@@ -147,6 +147,8 @@ public class FileService {
 
         }
 
+        response.setHeader("Content-Disposition","attachment;filename="+fileName);
+        response.setContentType("application/vnd.ms-excel");
         response.flushBuffer();
         //hssfWorkbook将Excel写到respose的输出流中，供页面下载文件
         hssfWorkbook.write(response.getOutputStream());

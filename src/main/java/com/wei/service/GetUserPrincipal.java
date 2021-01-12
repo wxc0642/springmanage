@@ -12,10 +12,8 @@ public class GetUserPrincipal {
     public String getUsername(){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
-
              String username = ((UserDetails)principal).getUsername();
              return username;
-
         } else {
             String username = principal.toString();
             return username;
