@@ -29,6 +29,6 @@ CREATE TABLE IF NOT EXISTS `book_in_set` (
   `morout` datetime DEFAULT NULL,
   `afterin` datetime DEFAULT NULL,
   `afterout` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `timeTag` VARCHAR(255) DEFAULT NULL,
   CONSTRAINT `id` FOREIGN KEY (`id`) REFERENCES `user_info` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

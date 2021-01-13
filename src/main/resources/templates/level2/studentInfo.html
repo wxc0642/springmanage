@@ -70,7 +70,7 @@
     </div>
 <script th:src="@{/assets/layui.js}"></script>
 <script th:inline="javascript">
-    layui.use('laydate',function () {
+    layui.use(['laydate','jquery'],function () {
         var laydate=layui.laydate;
 
         laydate.render({
@@ -79,8 +79,12 @@
             ,range:'~'
             ,format:'yyyy-MM-dd HH:mm:ss'
             ,value:'2021-01-01 08:00:00~2021-01-09 09:00:00'
-            ,theme: 'molv'
-
+            ,theme: 'molv',
+            done: function(value, date, endDate){
+                layui.$.get("/teacher/studentInfo/"+value, function(data){
+                    alert("Data Loaded: " + data);
+                });
+            }
             });
 
 
