@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -26,7 +27,7 @@ public class SignInDao {
      * @param username
      * @return
      */
-    public List<Map<String,Object>> searchByName(String username,Date... dates){
+    public List<Map<String,Object>> searchByName(String username,Timestamp... dates){
         if(dates.length==0){
             String sql= String
                     .format("select * from book_in_set where id=(select id from user_info where username='%s')",username);
@@ -78,7 +79,7 @@ public class SignInDao {
      * 查看具体时间段内的打卡数据
      * 或---->按时间及组查看具体打卡数据
      */
-    public List<Map<String,Object>> searchByTimeAndGroup(Date date1,Date date2,int... group_id){
+    public List<Map<String,Object>> searchByTimeAndGroup(Timestamp date1, Timestamp date2, int... group_id){
         if(group_id.length==0){
             String sql=String.format("select * from book_in_set where morin between '%s' and '%s'",date1,date2);
             return jdbcTemplate.queryForList(sql);
@@ -136,15 +137,16 @@ public class SignInDao {
     public void setSignInDataAndTag(int id,Date date,String time) throws RepeatException{
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         String timeTag=sdf.format(date);
+        Timestamp date1=new Timestamp(date.getTime());
         //查看是否有时间标签，如果有，说明这一天已经有一条记录在内
-        String sql1=String.format("select count(timeTag) from book_in_set where id='%s' and timeTag='%s'",id,timeTag);
+        String sql1=String.format("select count(timeTag) from book_in_set where id=%s and timeTag='%s'",id,timeTag);
         //查看是否所要存储的位置是否已有数据，若有，说明这一条数据重复
-        String sql2=String.format("select count(%s) from book_in_set where id='%s' and timeTag='%s'",time,id,timeTag);
+        String sql2=String.format("select count(%s) from book_in_set where id=%s and timeTag='%s'",time,id,timeTag);
         //String sql2=String.format("select '%s' from book_in_set where id='%s' and timeTag='%s'",time,id,timeTag);
         //有时间标签时，说明id,某个时间段的数据已创建，只需插入打卡时间数据即可
-        String sql3=String.format("insert into book_in_set(%s) values('%s') where id='%s'",time,date,id);
+        String sql3=String.format("update book_in_set set %s='%s' where 'id'='%s' and timeTag='%s'",time,date1,id,timeTag);
         //没有时间标签时，需插入id,打卡时间,时间标签
-        String sql4=String.format("insert into book_in_set(id,%s,timeTag) values('%s','%s','%s')",time,id,date,timeTag);
+        String sql4=String.format("insert into book_in_set(id,%s,timeTag) values('%s','%s','%s')",time,id,date1,timeTag);
 
        int timeTagCount = jdbcTemplate.queryForObject(sql1, Integer.class);
        int timeCount = jdbcTemplate.queryForObject(sql2, Integer.class);

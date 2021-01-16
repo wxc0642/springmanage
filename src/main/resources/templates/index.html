@@ -50,6 +50,11 @@
                         <dl class="layui-nav-child">
                             <dd><a th:href="@{/shared/info}">个人信息</a></dd>
                         </dl>
+                        <!--测试文件上传-->
+                        <dl class="layui-nav-child">
+                            <dd><a th:href="@{/shared/upload}">上传测试</a></dd>
+                        </dl>
+
                     </li>
 <!--学生-->
                     <li class="layui-nav-item" sec:authorize="hasAuthority('student')">

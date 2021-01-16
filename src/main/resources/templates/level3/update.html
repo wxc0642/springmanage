@@ -12,7 +12,7 @@
         <div class="layui-row">
             <div class="layui-card">
                 <div class="layui-card-header">修改信息</div>
-                <form class="layui-form layui-card-body" th:action="@{/administrator/update}+${id}" method="post">
+                <form class="layui-form layui-card-body" th:action="@{/administrator/update/}+${individualInfo.getId()}" method="post">
                   <div class="layui-form-item">
                     <label class="layui-form-label">用户名</label>
                     <div class="layui-input-block">
@@ -29,18 +29,18 @@
                   <div class="layui-form-item">
                     <label class="layui-form-label">选择组别</label>
                     <div class="layui-input-block">
-                      <select name="group_id" lay-verify="required" th:selected="${individualInfo.getGroup_id()}">
-                        <option th:each="group:${groups}" th:text="${group.getGroupName()}" th:value="${group.getGroup_id()}"></option>
+                      <select name="group_id" lay-verify="required" >
+                        <option  th:selected="${individualInfo.getGroup_id()==group.getGroup_id()}" th:each="group:${groups}"
+                                 th:text="${group.getGroupName()}" th:value="${group.getGroup_id()}"></option>
                       </select>
                     </div>
                   </div>
                   <div class="layui-form-item">
                     <label class="layui-form-label">选择类别</label>
                     <div class="layui-input-block">
-                        <select name="type" lay-verify="required" th:selected="${individualInfo.getType()}">
-                            <option value="student">学生</option>
-                            <option value="teacher">教师</option>
-                            <option value="administrator">管理员</option>
+                        <select name="type" lay-verify="required">
+                            <option th:selected="${individualInfo.getType()==limit.getType()}" th:each="limit:${limits}"
+                                    th:value="${limit.getType()}" th:text="${limit.getRole()}"></option>
                         </select>
                     </div>
                   </div>

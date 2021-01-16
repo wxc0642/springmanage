@@ -2,7 +2,6 @@ package com.wei.service;
 
 import com.wei.dao.SignInDao;
 import com.wei.exception.TimeOutException;
-import com.wei.pojo.SignInData;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -51,15 +50,20 @@ public class FileService {
             }
             String time=signInDataCols[1];
 
+
+            Date date=null;
+
             Timestamp timestamp=null;
             try {
-                long dateTime = sdf.parse(time).getTime();
-                timestamp=new Timestamp(dateTime);
+                date=sdf.parse(time);
+
+                //long dateTime = sdf.parse(time).getTime();
+                //timestamp=new Timestamp(dateTime);
             }catch (Exception e){
                 e.printStackTrace();
             }
             try {
-                signInDao.setSignInDataAndTag(id, timestamp, checkSignInTime(time));
+                signInDao.setSignInDataAndTag(id, date, checkSignInTime(time));
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -147,7 +151,9 @@ public class FileService {
 
         }
 
-        response.setHeader("Content-Disposition","attachment;filename="+new String(fileName.getBytes("UTF-8"),"iso-8859-1"));
+        response.setHeader("Content-Disposition",
+                "attachment;filename="+new String(fileName.getBytes("UTF-8"),
+                        "iso-8859-1"));
         response.setContentType("application/vnd.ms-excel");
         response.flushBuffer();
         //hssfWorkbook将Excel写到respose的输出流中，供页面下载文件

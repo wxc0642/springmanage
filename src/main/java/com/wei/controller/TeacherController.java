@@ -7,9 +7,10 @@ import com.wei.service.SignInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -29,14 +30,28 @@ public class TeacherController {
     @RequestMapping("/teacher/studentInfo")
     public String studentInfo(Model model){
         int group_id=infoService.searchGroupInfo(getUserPrincipal.getUsername()).getGroup_id();
-        List<SignInData> customUsers=signInService.searchDataByGAndTime(group_id);
-        model.addAttribute("TStudentSignInData",customUsers);
+        List<SignInData> signInAllDataList=signInService.searchDataByGAndTime(group_id);
+        model.addAttribute("TStudentSignInData",signInAllDataList);
         return "level2/studentInfo";
     }
 
     @GetMapping("/teacher/studentInfo/{dateRange}")
     public String studentDateInfo(@PathVariable("dateRange")String dateRange,Model model){
-        System.out.println(dateRange);
+        String date1String=dateRange.substring(0,19);
+        String date2String=dateRange.substring(22);
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        try{
+            Date date1=sdf.parse(date1String);
+            Date date2=sdf.parse(date2String);
+            List<SignInData> signInDataList=signInService.searchDataByTAndGroup(date1,date2);
+            for(SignInData signInData:signInDataList){
+                System.out.println(signInData);
+            }
+            model.addAttribute("TStudentSignInData",signInDataList);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return "level2/studentDateInfo";
     }
 

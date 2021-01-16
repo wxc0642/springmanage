@@ -5,6 +5,7 @@ import com.wei.pojo.SignInData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,10 +42,14 @@ public class SignInService {
      */
     public  List<SignInData> searchAllSignInData(String username,Date... dates) {
 
+
+
         if(dates.length==0){
             return mapToList(signInDao.searchByName(username));
         }else if(dates.length==2){
-            return mapToList(signInDao.searchByName(username,dates[0],dates[1]));
+            Timestamp date1stamp=new Timestamp(dates[0].getTime());
+            Timestamp date2stamp=new Timestamp(dates[1].getTime());
+            return mapToList(signInDao.searchByName(username,date1stamp,date2stamp));
         }else {
             return null;
         }
@@ -55,10 +60,12 @@ public class SignInService {
      * 按组、时间段查找
      */
     public List<SignInData> searchDataByTAndGroup(Date date1,Date date2,int... group_id){
+        Timestamp date1stamp=new Timestamp(date1.getTime());
+        Timestamp date2stamp=new Timestamp(date2.getTime());
         if(group_id.length==0){
-            return mapToList(signInDao.searchByTimeAndGroup(date1,date2));
+            return mapToList(signInDao.searchByTimeAndGroup(date1stamp,date2stamp));
         }else if(group_id.length==1){
-            return mapToList(signInDao.searchByTimeAndGroup(date1,date2,group_id[0]));
+            return mapToList(signInDao.searchByTimeAndGroup(date1stamp,date2stamp,group_id[0]));
         }else {
             return null;
         }
@@ -74,7 +81,9 @@ public class SignInService {
         if(dates.length==0){
             return mapToList(signInDao.searchByGroupId(group_id));
         }else if(dates.length==2){
-            return mapToList(signInDao.searchByTimeAndGroup(dates[0],dates[1],group_id));
+            Timestamp date1stamp=new Timestamp(dates[0].getTime());
+            Timestamp date2stamp=new Timestamp(dates[1].getTime());
+            return mapToList(signInDao.searchByTimeAndGroup(date1stamp,date2stamp,group_id));
         }else{
             return null;
         }
@@ -104,7 +113,7 @@ public class SignInService {
             }
 
         }catch (Exception e){
-            System.out.println("参数错了");
+            e.printStackTrace();
         }
     }
 

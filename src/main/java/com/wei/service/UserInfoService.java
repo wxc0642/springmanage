@@ -63,6 +63,14 @@ public class UserInfoService {
     }
 
     /**
+     * 更新用户
+     */
+    public void updateUser(CustomUser customUser){
+        userDao.updateUserInfo(customUser);
+    }
+
+
+    /**
      * 根据删除用户
      */
     public void deleteUser(int id){

@@ -3,11 +3,9 @@ package com.wei.controller;
 import com.wei.dao.SignInDao;
 import com.wei.pojo.CustomUser;
 import com.wei.pojo.Group;
+import com.wei.pojo.Limit;
 import com.wei.pojo.SignInData;
-import com.wei.service.FileService;
-import com.wei.service.GroupService;
-import com.wei.service.SignInService;
-import com.wei.service.UserInfoService;
+import com.wei.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
@@ -20,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +38,26 @@ public class AdministratorController {
         model.addAttribute("allUsers",customUsers);
         return "level3/signInData";
     }
+
+
+    @GetMapping("/administrator/allSignInData/{dateRange}")
+    public String searchDataByDates(@PathVariable("dateRange")String dateRange,Model model){
+
+        String date1String=dateRange.substring(0,19);
+        String date2String=dateRange.substring(22);
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date date1 = sdf.parse(date1String);
+            Date date2 = sdf.parse(date2String);
+            List<SignInData> lists=signInService.searchDataByTAndGroup(date1,date2);
+            model.addAttribute("SignInDateData",lists);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "level3/signInDataByDate";
+    }
+
+
 
     //用户列表
     @RequestMapping("/administrator/UserInfoList")
@@ -79,22 +99,25 @@ public class AdministratorController {
      * 1.GetMapping 查出对应id的用户的数据，选中，或者value值（当进入修改页面时，应该对应显示信息）
      * 2.PostMapping 修改后
      */
+    @Autowired
+    LimitsService limitsService;
      @GetMapping("/administrator/update/{id}")
      public String toUpdateUser(@PathVariable("id")int id, Model model){
          CustomUser customUser=userInfoService.searchIndividual(id);
          List<Group> groups=groupService.getAllGroup();
-
+         List<Limit> limits=limitsService.getAllLimits();
          model.addAttribute("individualInfo",customUser);
          model.addAttribute("groups",groups);
-
+         model.addAttribute("limits",limits);
          return "level3/update";
      }
 
      @PostMapping("/administrator/update/{id}")
      public String updateUser(CustomUser customUser){
-         userInfoService.saveUser(customUser);
+         userInfoService.updateUser(customUser);
          return "redirect:/administrator/UserInfoList";
      }
+     
 
      @GetMapping("/administrator/delete/{id}")
      public String deleteUser(@PathVariable("id")int id){
@@ -116,17 +139,7 @@ public class AdministratorController {
     }
 
 
-//    @RequestMapping("/administrator/download")
-//    public ResponseEntity fileDownload() throws Exception{
-//        FileSystemResource file=new FileSystemResource("C:\\Users\\wxc\\Desktop\\springmanage\\src\\main\\resources\\static\\images\\404.png");
-//        HttpHeaders headers=new HttpHeaders();
-//        headers.add("Content-Disposition","attachment;filename=SignInData.txt");
-//        return ResponseEntity.ok()
-//                .headers(headers)
-//                .contentLength(file.contentLength())
-//                .contentType(MediaType.parseMediaType("application/octet-stream"))
-//                .body(new InputStreamResource(file.getInputStream()));
-//    }
+
     @Autowired
     SignInDao signInDao;
     @RequestMapping("/administrator/download")

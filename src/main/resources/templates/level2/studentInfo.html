@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" th:href="@{/assets/css/layui.css}">
     <link rel="stylesheet" th:href="@{/assets/css/view.css}"/>
-
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.0.min.js"></script>
     <link rel="icon" href="/favicon.ico">
     <title>管理后台</title>
 </head>
@@ -26,9 +26,8 @@
             <div class="layui-card">
                 <div class="layui-card-body">
                     <!--时间选择器-->
-                    <div class="layui-inline">
-                        <input type="text" class="layui-input" width="300px" id="date">
-                        <a href="" class="layui-btn">查询</a>
+                    <div class="layui-inline" style="width: 300px">
+                        <input type="text" class="layui-input" width="300px" id="date" th:name="dataRange">
                     </div>
 
 
@@ -78,16 +77,12 @@
             ,type:'datetime'
             ,range:'~'
             ,format:'yyyy-MM-dd HH:mm:ss'
-            ,value:'2021-01-01 08:00:00~2021-01-09 09:00:00'
+            ,value:'2021-01-01 08:00:00 ~ 2021-01-09 09:00:00'
             ,theme: 'molv',
             done: function(value, date, endDate){
-                layui.$.get("/teacher/studentInfo/"+value, function(data){
-                    alert("Data Loaded: " + data);
-                });
+                $(window).attr('location','/teacher/studentInfo/'+value);
             }
             });
-
-
     });
 </script>
 </body>

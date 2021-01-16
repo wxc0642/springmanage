@@ -100,6 +100,16 @@ public class UserDao {
        jdbcTemplate.update(sql);
     }
 
+    public void updateUserInfo(CustomUser customUser){
+       String sql=String.format(
+               "update user_info set username='%s',password='%s',group_id='%s',type='%s' where id='%s'",
+               customUser.getUsername(),
+               customUser.getPassword(),
+               customUser.getGroup_id(),
+               customUser.getType(),
+               customUser.getId());
+       jdbcTemplate.update(sql);
+    }
 
 
 }

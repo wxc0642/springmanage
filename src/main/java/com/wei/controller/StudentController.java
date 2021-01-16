@@ -6,9 +6,13 @@ import com.wei.service.SignInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -31,12 +35,24 @@ public class StudentController {
         return "level1/selfSignInData";
     }
 
-    @RequestMapping("/student/individual_sta_fig/date")
-    public String searchStaticFig(Model model, Date date1, Date date2){
-        List<SignInData> studentSignInDataByTime=signInService.searchAllSignInData(getUserPrincipal.getUsername(),date1,date2);
-        model.addAttribute("IndividualDataByTime",studentSignInDataByTime);
-        return "level1/DefinedTimeData";
+    @GetMapping("/student/selfData/{dateRange}")
+    public String searchDateInfo(@PathVariable("dateRange")String dateRange, Model model){
+        String username=getUserPrincipal.getUsername();
+        String date1String=dateRange.substring(0,19);
+        String date2String=dateRange.substring(22);
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date date1 = sdf.parse(date1String);
+            Date date2 = sdf.parse(date2String);
+            List<SignInData> lists=signInService.searchAllSignInData(username,date1,date2);
+            model.addAttribute("SignInDateData",lists);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "level1/selfDateData";
     }
+
+
 
     @RequestMapping("/student/takeoffList")
     public String takeOffList(){
